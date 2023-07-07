@@ -6,15 +6,15 @@
   
   <title>重构相关总结 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="[toc]   重构代码中遇到的问题和解决方案1. 游戏实体相关问题1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。">
+  <meta name="description" content="重构代码中遇到的问题和解决方案1. 游戏实体相关问题1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。​	对于一些轻量游戏尤其是三消类游戏，在传统开发逻辑下，难免会一个Mono里边包含了大量的相关逻辑，比如：指令输入的接收和处理、自身动画的设置和开始结束、消息接收和分发以及数据等。 ​	首先以GameFramework的实体-逻辑结构进行第一步拆分，将这个类需要用到的传入数据先拆成E">
 <meta property="og:type" content="article">
 <meta property="og:title" content="重构相关总结">
 <meta property="og:url" content="https://nelson.github.io/myblog/2023/07/07/%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="[toc]   重构代码中遇到的问题和解决方案1. 游戏实体相关问题1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。">
+<meta property="og:description" content="重构代码中遇到的问题和解决方案1. 游戏实体相关问题1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。​	对于一些轻量游戏尤其是三消类游戏，在传统开发逻辑下，难免会一个Mono里边包含了大量的相关逻辑，比如：指令输入的接收和处理、自身动画的设置和开始结束、消息接收和分发以及数据等。 ​	首先以GameFramework的实体-逻辑结构进行第一步拆分，将这个类需要用到的传入数据先拆成E">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-07-07T06:09:48.000Z">
-<meta property="article:modified_time" content="2023-07-07T06:11:07.142Z">
+<meta property="article:modified_time" content="2023-07-07T06:32:15.080Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -97,8 +97,9 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>[toc]  </p>
-<h2 id="重构代码中遇到的问题和解决方案"><a href="#重构代码中遇到的问题和解决方案" class="headerlink" title="重构代码中遇到的问题和解决方案"></a>重构代码中遇到的问题和解决方案</h2><h3 id="1-游戏实体相关问题"><a href="#1-游戏实体相关问题" class="headerlink" title="1. 游戏实体相关问题"></a>1. 游戏实体相关问题</h3><h4 id="1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。"><a href="#1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。" class="headerlink" title="1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。"></a>1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。</h4>
+        <h2 id="重构代码中遇到的问题和解决方案"><a href="#重构代码中遇到的问题和解决方案" class="headerlink" title="重构代码中遇到的问题和解决方案"></a>重构代码中遇到的问题和解决方案</h2><h3 id="1-游戏实体相关问题"><a href="#1-游戏实体相关问题" class="headerlink" title="1. 游戏实体相关问题"></a>1. 游戏实体相关问题</h3><h4 id="1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。"><a href="#1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。" class="headerlink" title="1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。"></a>1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。</h4><p>​	对于一些轻量游戏尤其是三消类游戏，在传统开发逻辑下，难免会一个Mono里边包含了大量的相关逻辑，比如：指令输入的接收和处理、自身动画的设置和开始结束、消息接收和分发以及数据等。</p>
+<p>​	首先以GameFramework的实体-逻辑结构进行第一步拆分，将这个类需要用到的传入数据先拆成EntityData</p>
+
       
     </div>
     <footer class="article-footer">
