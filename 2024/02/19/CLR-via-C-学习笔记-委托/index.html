@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/myblog/icon/favicon-16x16.png?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/myblog/icon/favicon-32x32.png?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="[toc]                     委托       委托确保回调方法是类型安全的(这是CLR 最 重要的目标之一)。委托还允许顺序调用至个方法，并支持调用静态方法和实例方法。                     1. 委托的声明、创建、使用：                           1.1.  声明：       1delegate void Feedback(i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CLR via C# 学习笔记-委托">
+<meta property="og:url" content="https://nelson.github.io/myblog/2024/02/19/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%A7%94%E6%89%98/index.html">
+<meta property="og:site_name" content="Nelson">
+<meta property="og:description" content="[toc]                     委托       委托确保回调方法是类型安全的(这是CLR 最 重要的目标之一)。委托还允许顺序调用至个方法，并支持调用静态方法和实例方法。                     1. 委托的声明、创建、使用：                           1.1.  声明：       1delegate void Feedback(i">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191645036.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191652401.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191704812.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191719906.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191752996.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191753434.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402201521066.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402201539116.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402201540584.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402201544034.png">
+<meta property="article:published_time" content="2024-02-19T08:39:56.000Z">
+<meta property="article:modified_time" content="2024-02-22T04:04:53.921Z">
+<meta property="article:author" content="Nelson">
+<meta property="article:tag" content="学习CLR的事件委托，了解底层原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191645036.png"><title>CLR via C# 学习笔记-委托 | Nelson</title><link ref="canonical" href="https://nelson.github.io/myblog/2024/02/19/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%A7%94%E6%89%98/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/myblog/css/index.css?v=2.8.0"><link rel="stylesheet" href="css/custom.css"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/myblog/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":false,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"Copy","copySuccess":"Copy Success","copyError":"Copy Error"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.1.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">Home</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">Archives</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">Categories</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">Tags</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">CLR via C# 学习笔记-委托</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2024-02-19</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2024-02-22</span></span></div></header><div class="post-body"><p>[toc]</p>
+
+        <h2 id="委托"   >
+          <a href="#委托" class="heading-link"><i class="fas fa-link"></i></a><a href="#委托" class="headerlink" title="委托"></a>委托</h2>
+      <p>委托确保回调方法是类型安全的(这是CLR 最 重要的目标之一)。委托还允许顺序调用至个方法，并支持调用静态方法和实例方法。</p>
+
+        <h3 id="1-委托的声明、创建、使用："   >
+          <a href="#1-委托的声明、创建、使用：" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-委托的声明、创建、使用：" class="headerlink" title="1. 委托的声明、创建、使用："></a>1. 委托的声明、创建、使用：</h3>
+      
+        <h4 id="1-1-声明："   >
+          <a href="#1-1-声明：" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-1-声明：" class="headerlink" title="1.1.  声明："></a>1.1.  声明：</h4>
+      <figure class="highlight c#"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">Feedback</span>(<span class="params"><span class="built_in">int</span> <span class="keyword">value</span></span>)</span>;</span><br></pre></td></tr></table></div></figure>
+
+<p><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191645036.png" alt="image-20240219164509517"></p>
+<p>可以看到在IL代码上，是继承了MulticastDelegate，所以delegate关键字是会自动生成一个类。这里的MulticastDelegate继承自Delegate。</p>
+<img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191652401.png" alt="image-20240219165227364" style="zoom:50%;" />
+
+<p>同时，IL会自动生成相应的Invoke等方法，</p>
+
+        <h4 id="1-2-创建："   >
+          <a href="#1-2-创建：" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-2-创建：" class="headerlink" title="1.2. 创建："></a>1.2. 创建：</h4>
+      <figure class="highlight c#"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> Feedback(Program.FeedbackMethod);<span class="comment">//这里要保证方法的参数类型和数量与Feedback定义相同</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">FeedbackMethod</span>(<span class="params">Int32 <span class="keyword">value</span></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="keyword">value</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<p>这里直接传入静态方法，这个对于一般方法的参数来说，无法编译的，但是C#编辑器自动要构造的是委托，所以会分析源代码来确定引用的是哪个对像和方法。</p>
+
+        <h4 id="1-3-使用："   >
+          <a href="#1-3-使用：" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-3-使用：" class="headerlink" title="1.3. 使用："></a>1.3. 使用：</h4>
+      <figure class="highlight c#"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a(<span class="number">10</span>);</span><br><span class="line">a.Invoke(<span class="number">10</span>);</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="1-2-委托链"   >
+          <a href="#1-2-委托链" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-2-委托链" class="headerlink" title="1.2. 委托链"></a>1.2. 委托链</h3>
+      
+        <h4 id="1-2-1-定义"   >
+          <a href="#1-2-1-定义" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-2-1-定义" class="headerlink" title="1.2.1. 定义"></a>1.2.1. 定义</h4>
+      <p>委托链是C#delegate默认的类，也就是MulticastDelegate，这里有3个比较重要的非公共字段</p>
+<div class="table-container"><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>_target</td>
+<td>System.Object</td>
+<td>当委托包装静态方法时，这个为Null，当为实例方法时，为回调方法耍操作的对象。换言之，这个字段指出要传给实例方法的隐式参数this 的值</td>
+</tr>
+<tr>
+<td>_methodPtr</td>
+<td>System.IntPtr</td>
+<td>一个内部的整数型，CLR用它标识要回调的方法</td>
+</tr>
+<tr>
+<td>_invocationList</td>
+<td>System.Object</td>
+<td>该字段通常为null。构造委托链时它引用一个委托数组</td>
+</tr>
+</tbody></table></div>
+
+        <h4 id="1-2-2-添加、删除操作"   >
+          <a href="#1-2-2-添加、删除操作" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-2-2-添加、删除操作" class="headerlink" title="1.2.2. 添加、删除操作"></a>1.2.2. 添加、删除操作</h4>
+      <p>委托链比较常用的操作就是添加和删除，由于委托是<strong>不可变</strong>的，所以在Combine和Remove操作的时候，除非一方是Null，否则都会创建一个新的委托实例。</p>
+<p><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191704812.png" alt="image-20240219170433745"></p>
+
+        <h4 id="1-2-3-调用"   >
+          <a href="#1-2-3-调用" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-2-3-调用" class="headerlink" title="1.2.3. 调用"></a>1.2.3. 调用</h4>
+      <p>委托链的Invoke就是简单的遍历和调用，如果需要对调用算法进行调整，可以使用GetlnvocationList()来获取委托链里所有的委托</p>
+<p><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191719906.png" alt="image-20240219171931865"></p>
+
+        <h3 id="1-3-Action、Func和delegate的关系"   >
+          <a href="#1-3-Action、Func和delegate的关系" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-3-Action、Func和delegate的关系" class="headerlink" title="1.3.  Action、Func和delegate的关系"></a>1.3.  Action、Func和delegate的关系</h3>
+      <p>在刚开始学习的时候，只是知道Action是可以带参数、Func即有参数又有回调。但是，其实，Action和Func只是对delegate的特殊封装。</p>
+
+        <h4 id="1-1-为什么封装Action和Func"   >
+          <a href="#1-1-为什么封装Action和Func" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-1-为什么封装Action和Func" class="headerlink" title="1.1. 为什么封装Action和Func"></a>1.1. 为什么封装Action和Func</h4>
+      <p>在Microsoft刚开始引用委托的时候，发现好多相同参数的委托重复定义，导致一个类有50个委托</p>
+<p><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191752996.png" alt="image-20240219175220852"></p>
+<p>所以为了解决这个问题，使用泛型来抽象出一些常用的实现，也就是Action和Func</p>
+<p><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402191753434.png" alt="image-20240219175310383"></p>
+
+        <h3 id="1-4-委托相关的语法糖"   >
+          <a href="#1-4-委托相关的语法糖" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-4-委托相关的语法糖" class="headerlink" title="1.4. 委托相关的语法糖"></a>1.4. 委托相关的语法糖</h3>
+      
+        <h4 id="1-4-1-不需要构造委托对象"   >
+          <a href="#1-4-1-不需要构造委托对象" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-4-1-不需要构造委托对象" class="headerlink" title="1.4.1. 不需要构造委托对象"></a>1.4.1. 不需要构造委托对象</h4>
+      <p>C#允许指定回调方法的名称，不必构造委托对象包裝器</p>
+<figure class="highlight c#"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 定义一个委托类型</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">MyCallback</span>(<span class="params"><span class="built_in">string</span> message</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 使用方法名来指定回调方法</span></span><br><span class="line">        MyCallback callback = ShowMessage;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 调用回调方法</span></span><br><span class="line">        callback(<span class="string">&quot;Hello, world!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定义一个静态方法作为回调</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowMessage</span>(<span class="params"><span class="built_in">string</span> message</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="1-4-2-不需要定义回调方法-Lambda表达式"   >
+          <a href="#1-4-2-不需要定义回调方法-Lambda表达式" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-4-2-不需要定义回调方法-Lambda表达式" class="headerlink" title="1.4.2. 不需要定义回调方法(Lambda表达式)"></a>1.4.2. 不需要定义回调方法(Lambda表达式)</h4>
+      <figure class="highlight c#"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ThreadPool.QueueUserWorkItem(obj =&gt; Console.WriteLine(),<span class="number">5</span>);</span><br></pre></td></tr></table></div></figure>
+
+<p>这里直接传入一个Lambda表达式，代码会自动识别并创建匿名函数</p>
+<p><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402201521066.png" alt="image-20240220152105783"></p>
+
+        <h4 id="1-4-3-局部变量不需要手动包装到类中即可传给回调方法"   >
+          <a href="#1-4-3-局部变量不需要手动包装到类中即可传给回调方法" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-4-3-局部变量不需要手动包装到类中即可传给回调方法" class="headerlink" title="1.4.3. 局部变量不需要手动包装到类中即可传给回调方法"></a>1.4.3. 局部变量不需要手动包装到类中即可传给回调方法</h4>
+      <figure class="highlight c#"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> b = <span class="number">6</span>;</span><br><span class="line">ThreadPool.QueueUserWorkItem(obj =&gt; Console.WriteLine(b),<span class="number">5</span>);</span><br></pre></td></tr></table></div></figure>
+
+
+
+
+        <h3 id="1-5-委托和反射"   >
+          <a href="#1-5-委托和反射" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-5-委托和反射" class="headerlink" title="1.5. 委托和反射"></a>1.5. 委托和反射</h3>
+      <p>正常使用委托都是预先知道委托参数类型，在Invoke的时候传入对应类型的参数，但是在个别情况下，在编译时不能确定。</p>
+<p>C#在System.Reflection.MethodInfo提供了一个CreateDelegate的方法，允许在编译时不知道委托的所有必要信息的前提下创建委托。</p>
+<p><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402201539116.png" alt="image-20240220153904979"></p>
+<p>创建好后使用Delegate的Dynamicinvoke 方法调用它</p>
+<p><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402201540584.png" alt="image-20240220154005524"></p>
+<p>首先必须获取引用了回调方法的 一个 Methodinfo 对象。然后，调用CreateDelegate 方法来构造由第一个参数delegateType 所标 识的Delegate 派生类型的对象。如果委托包装了实例方法，还要向CreateDelegate 传递一 个target 参数，指定作为this 参数传给实例方法的对象。</p>
+<p>System.Delegate 的Dynamiclnvoke 方法允许调用委托对象的回调方法，传递一组在运行时 确定的参数。调用Dynamiclnvoke 时，它会在内部保证传递的参数与回调方法期望的参数 兼容。如果兼容就调用回调方法，否则抛出 ArgumentException 异常。Dynamicinvoke返回回调方法所返回的对象。</p>
+<p><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202402201544034.png" alt="image-20240220154457973"></p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ END ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">Author: </span><span class="copyright-author__value"><a href="https://Nelson.github.io/myblog">Nelson</a></span></div><div class="copyright-link"><span class="copyright-link__name">Link: </span><span class="copyright-link__value"><a href="https://nelson.github.io/myblog/2024/02/19/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%A7%94%E6%89%98/">https://nelson.github.io/myblog/2024/02/19/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%A7%94%E6%89%98/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">Copyright: </span><span class="copyright-notice__value">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> unless stating additionally</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://nelson.github.io/myblog/tags/%E5%AD%A6%E4%B9%A0CLR%E7%9A%84%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98%EF%BC%8C%E4%BA%86%E8%A7%A3%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">学习CLR的事件委托，了解底层原理</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/myblog/2024/02/20/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%8F%AF%E7%A9%BA%E5%80%BC%E7%B1%BB%E5%9E%8B/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">CLR via C# 学习笔记-可空值类型</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/myblog/2024/02/02/GameFramework-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="paginator-prev__text">GameFramework 学习笔记-事件</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">Catalog</span><span class="sidebar-nav-ov">Overview</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A7%94%E6%89%98"><span class="toc-text">
+          委托</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%A7%94%E6%89%98%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%81%E5%88%9B%E5%BB%BA%E3%80%81%E4%BD%BF%E7%94%A8%EF%BC%9A"><span class="toc-text">
+          1. 委托的声明、创建、使用：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%A3%B0%E6%98%8E%EF%BC%9A"><span class="toc-text">
+          1.1.  声明：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%88%9B%E5%BB%BA%EF%BC%9A"><span class="toc-text">
+          1.2. 创建：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E4%BD%BF%E7%94%A8%EF%BC%9A"><span class="toc-text">
+          1.3. 使用：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%A7%94%E6%89%98%E9%93%BE"><span class="toc-text">
+          1.2. 委托链</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-%E5%AE%9A%E4%B9%89"><span class="toc-text">
+          1.2.1. 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-2-%E6%B7%BB%E5%8A%A0%E3%80%81%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C"><span class="toc-text">
+          1.2.2. 添加、删除操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-3-%E8%B0%83%E7%94%A8"><span class="toc-text">
+          1.2.3. 调用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-Action%E3%80%81Func%E5%92%8Cdelegate%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text">
+          1.3.  Action、Func和delegate的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%B0%81%E8%A3%85Action%E5%92%8CFunc"><span class="toc-text">
+          1.1. 为什么封装Action和Func</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%A7%94%E6%89%98%E7%9B%B8%E5%85%B3%E7%9A%84%E8%AF%AD%E6%B3%95%E7%B3%96"><span class="toc-text">
+          1.4. 委托相关的语法糖</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-%E4%B8%8D%E9%9C%80%E8%A6%81%E6%9E%84%E9%80%A0%E5%A7%94%E6%89%98%E5%AF%B9%E8%B1%A1"><span class="toc-text">
+          1.4.1. 不需要构造委托对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-2-%E4%B8%8D%E9%9C%80%E8%A6%81%E5%AE%9A%E4%B9%89%E5%9B%9E%E8%B0%83%E6%96%B9%E6%B3%95-Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">
+          1.4.2. 不需要定义回调方法(Lambda表达式)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-3-%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E4%B8%8D%E9%9C%80%E8%A6%81%E6%89%8B%E5%8A%A8%E5%8C%85%E8%A3%85%E5%88%B0%E7%B1%BB%E4%B8%AD%E5%8D%B3%E5%8F%AF%E4%BC%A0%E7%BB%99%E5%9B%9E%E8%B0%83%E6%96%B9%E6%B3%95"><span class="toc-text">
+          1.4.3. 局部变量不需要手动包装到类中即可传给回调方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E5%A7%94%E6%89%98%E5%92%8C%E5%8F%8D%E5%B0%84"><span class="toc-text">
+          1.5. 委托和反射</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/stun-logo.svg" alt="avatar"></div><p class="sidebar-ov-author__text">Hello Stun</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">14</div><div class="sidebar-ov-state-item__name">Archives</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">0</div><div class="sidebar-ov-state-item__name">Categories</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">5</div><div class="sidebar-ov-state-item__name">Tags</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="Creative Commons" data-popover-pos="up"><img src="/myblog/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">You have read </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Nelson</span></div><div><span>Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a></span><span> v7.1.1</span><span class="footer__devider">|</span><span>Theme - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/myblog/js/utils.js?v=2.8.0"></script><script src="/myblog/js/stun-boot.js?v=2.8.0"></script><script src="/myblog/js/scroll.js?v=2.8.0"></script><script src="/myblog/js/header.js?v=2.8.0"></script><script src="/myblog/js/sidebar.js?v=2.8.0"></script></body></html>

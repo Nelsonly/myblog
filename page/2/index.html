@@ -1,0 +1,147 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/myblog/icon/favicon-16x16.png?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/myblog/icon/favicon-32x32.png?v=2.8.0" type="image/png" sizes="32x32"><meta property="og:type" content="website">
+<meta property="og:title" content="Nelson">
+<meta property="og:url" content="https://nelson.github.io/myblog/page/2/index.html">
+<meta property="og:site_name" content="Nelson">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Nelson">
+<meta name="twitter:card" content="summary"><title>Nelson</title><link ref="canonical" href="https://nelson.github.io/myblog/page/2/index.html"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/myblog/css/index.css?v=2.8.0"><link rel="stylesheet" href="css/custom.css"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/myblog/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":false,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"Copy","copySuccess":"Copy Success","copyError":"Copy Error"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.1.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">Home</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">Archives</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">Categories</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">Tags</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Hello World</div><div class="header-banner-info__subtitle">An elegant theme for Hexo</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/myblog/2023/12/28/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">CLR via C#学习笔记</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2023-12-28</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2024-01-05</span></span></div></header><div class="post-body"><div class="post-excerpt">
+        <h1 id="概要："   >
+          <a href="#概要：" class="heading-link"><i class="fas fa-link"></i></a><a href="#概要：" class="headerlink" title="概要："></a>概要：</h1>
+      <p>CLR也就是公共语言运行时是.net多平台的基础，而理解CLR的设计模式和思想有助于优化代码已经学习通用架构模式。</p>
+
+        <h3 id="第3章："   >
+          <a href="#第3章：" class="heading-link"><i class="fas fa-link"></i></a><a href="#第3章：" class="headerlink" title="第3章："></a>第3章：</h3>
+      <p>主要讲解了“共享程序集和强命名程序集” ，其实就是讲述了.net在多公司开发代码的情况下，如何通过密钥、前缀等方式实现不同公司代码相同名称程序集的分离。</p>
+
+        <h3 id="第4章：类型基础"   >
+          <a href="#第4章：类型基础" class="heading-link"><i class="fas fa-link"></i></a><a href="#第4章：类型基础" class="headerlink" title="第4章：类型基础"></a>第4章：类型基础</h3>
+      <p>这一章十分重要，对C#面向对象的设计已经代码优化都有很重要的信息。</p>
+
+        <h4 id="4-1-Object"   >
+          <a href="#4-1-Object" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-1-Object" class="headerlink" title="4.1 Object"></a>4.1 Object</h4>
+      <p>也就是所有类型的基础，Object有一些基础方法，包括Equals、GetHashCode、ToString、GetType，以及2个保护方法MemberWiseClone（类似于Python的colne,值类型新建、引用类型存储指针）、Finalize（垃圾回收前调用）。</p>
+
+        <h4 id="4-1-1-new-关键字"   >
+          <a href="#4-1-1-new-关键字" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-1-1-new-关键字" class="headerlink" title="4.1.1 new 关键字"></a>4.1.1 new 关键字</h4>
+      <p>以下是new操作符所做的事情。</p>
+<ol>
+<li>计算类型及其所有基类型(一直到Syst em. 0bj ect ，虽然它没有定义自己的实例字段)中 定义的所有实例 字段需要的字节数。堆 上每个对象都需要一些额外的成员®，包括 “ 类 型对象指针” (tvpe obiect pointer)和“同步块索引” (sync block index)。CLR利用这些 成员管理对象。额外成员的字 节数要计入对象 大小。</li>
+<li>从托管堆中分配类型要求的字节数，从而分配对象的内存，分配的所有字节都设为零(0)。</li>
+<li>初始化对象的“类型对黎指针”和“同步块索引” 成员。</li>
+<li>调用类型的实例构造器，传递在new 调用中指定的实参，大多数编译器都在构造器中自动生成代码来调用基类构造器。每个类型的构造器都负责初始化该类型定义的实例字段 。 最终调用System.Object的构造器，该构造器什么都不做，简单地返回。</li>
+</ol>
+<p>分部partial可以修饰类也可以修饰方法，修饰方法的好处是可以在其他partial类中直接重写方法，当方法没有被重新时，编译器不会编译方法的调用。问题是不能有out 和返回值。</p>
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/myblog/2023/12/28/%E5%BF%AB%E9%80%9FShader%E5%85%A5%E9%97%A8/">快速Shader入门</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2023-12-28</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2023-12-28</span></span></div></header><div class="post-body"><div class="post-excerpt">
+        <h1 id="快速Unity2D-Shader入"   >
+          <a href="#快速Unity2D-Shader入" class="heading-link"><i class="fas fa-link"></i></a><a href="#快速Unity2D-Shader入" class="headerlink" title="快速Unity2D Shader入"></a>快速Unity2D Shader入</h1>
+      <p>本文旨在快速开始Unity 2D的Shader开发</p>
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/myblog/2023/07/07/%E9%80%9A%E8%BF%87hexo%E6%90%AD%E8%BD%BDgithub%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">通过hexo搭载github创建个人博客</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2023-07-07</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2023-07-07</span></span></div></header><div class="post-body"><div class="post-excerpt">
+        <h2 id="安装Hexo"   >
+          <a href="#安装Hexo" class="heading-link"><i class="fas fa-link"></i></a><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2>
+      <ol>
+<li><p><strong>安装 Hexo</strong><br> 首先，你需要在你的计算机上安装 Node.js 和 Git。安装完 Node.js 之后，打开终端或命令提示符，并使用以下命令来安装 Hexo：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></div></figure>
+
+<p> 这将在全局范围里安装 Hexo 命令行工具。</p>
+</li>
+<li><p><strong>初始化新的博客</strong></p>
+<p> 接着，选择一个位置来创建你的新博客。在终端&#x2F;命令行工具中导航到你选择的目录，然后键入以下命令：</p>
+<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog</span><br></pre></td></tr></table></div></figure>
+<p>​	这将在 ‘blog’ 目录下创建一个新的 Hexo 博客。</p>
+</li>
+<li><p><strong>安装依赖</strong></p>
+<p>​	当 ‘hexo init’ 命令完成后，应将在 ‘blog’ 文件夹中看到一些文件和文件夹。现在使用终端导航到这个新创建的 ‘blog’ 文件夹，然后使用以下命令来安装所需的依赖：</p>
+<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line">npm install</span><br></pre></td></tr></table></div></figure>
+</li>
+<li><p><strong>配置博客</strong></p>
+<p>​	等待依赖安装完成后，即可开始配置你的博客。打开 ‘blog’ 文件夹，你会看到一个名为 ‘_config.yml’ 的文件，这是 Hexo 博客的主配置文件。在其中，你可以设置网站的名字，描述，以及一些其他的配置选项。配置完成之后保存关闭文件。</p>
+</li>
+<li><p><strong>开始你的博客之旅</strong></p>
+<p> 至此，你的新博客已经配置完成，你可以开始写你的第一篇博客文章了。创建新文章的命令是：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;你的文章标题&quot;</span><br></pre></td></tr></table></div></figure>
+<p> 这样就会在 ‘source&#x2F;_posts&#x2F;‘ 目录下生成一个新的 markdown 文件，你可以在这个文件中写你的博客内容。</p>
+</li>
+<li><p><strong>编写博客文章</strong><br> 打开刚刚创建的 markdown 文件，在其中写下你的博客内容。Markdown 语法非常简单，例如你可以使用 # 来创建标题，- 或 * 创建列表等。</p>
+</li>
+<li><p><strong>生成静态页面</strong><br> 当你完成了博客文章的编写，再次回到终端&#x2F;命令提示符窗口，输入以下命令来生成静态页面：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate </span><br><span class="line"># 或者可以用 &#x27;hexo g&#x27; 这个简写形式</span><br></pre></td></tr></table></div></figure>
+<p> 这将会把你的 markdown 文件转换成能在网页上显示的博客文章。</p>
+</li>
+<li><p><strong>查看网页</strong>:</p>
+<p> 如果你想在本地查看你的博客，你可以输入以下命令启动一个服务器：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br><span class="line"># 同样，这里也可以用 &#x27;hexo s&#x27; 这个简写形式</span><br></pre></td></tr></table></div></figure>
+
+<p> 然后在浏览器中输入 <code>http://localhost:4000</code>，你就能看到你的博客网页了。</p>
+</li>
+</ol>
+
+        <h2 id="配置Github"   >
+          <a href="#配置Github" class="heading-link"><i class="fas fa-link"></i></a><a href="#配置Github" class="headerlink" title="配置Github"></a>配置Github</h2>
+      <ol>
+<li><p><strong>安装hexo-deployer-git</strong></p>
+<p> 打开终端，定位到您的Hexo项目目录，然后运行以下命令：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></div></figure>
+<p> 这将在您的Hexo项目中安装一个部署插件，让您可以将博客发布到GitHub。</p>
+</li>
+<li><p><strong>在Hexo配置文件中添加部署配置</strong></p>
+<p> 打开您的Hexo项目的配置文件（通常是<code>_config.yml</code>）并找到<code>deploy</code>部分。然后添加以下配置：</p>
+ <figure class="highlight yaml"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">&lt;repository</span> <span class="string">url&gt;</span> <span class="comment"># 您的GitHub存储库URL，例如：https://github.com/&lt;username&gt;/&lt;reponame&gt;.git</span></span><br><span class="line">  <span class="attr">branch:</span> [<span class="string">branch</span>] <span class="comment">#陆地分支，例如：gh-pages对于用户站点，master for project site.</span></span><br></pre></td></tr></table></div></figure>
+<p> 请注意，您需要替换<code>&lt;repository url&gt;</code>和<code>[branch]</code>。对于GitHub用户网站，核心应是<code>master</code>分支；对于项目网站，核心应是<code>gh-pages</code>分支。</p>
+</li>
+<li><p><strong>部署您的网站</strong></p>
+<p> 返回到终端并运行以下命令：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></div></figure>
+<p> 或者简写形式 <code>hexo d</code>.</p>
+</li>
+</ol>
+<p>该命令将生成您的博客并将其推送到您在配置文件中配置的URL和分支的存储库。</p>
+<ol start="4">
+<li>对于推送出现权限不足情况需要去git hub 配置ssh秘钥。<ol>
+<li><code>ssh-keygen -t ed25519 -C &quot;you github email&quot;</code>创建密钥</li>
+<li><code>ssh-add ~/.ssh/id_ed25519</code> 添加密钥</li>
+<li><code>cat ~/.ssh/id_ed25519.pub</code> 获取到当前密钥</li>
+<li>在Github 的Setting -》SSH and GPG keys里新增一个SSH密钥，然后将 c 获取的密钥粘贴并保存</li>
+<li><code> ssh -T git@github.com</code> 显示成功即配置完成</li>
+</ol>
+</li>
+</ol>
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/myblog/2023/07/07/%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/">重构相关总结</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2023-07-07</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2024-03-04</span></span></div></header><div class="post-body"><div class="post-excerpt">
+        <h2 id="重构代码中遇到的问题和解决方案"   >
+          <a href="#重构代码中遇到的问题和解决方案" class="heading-link"><i class="fas fa-link"></i></a><a href="#重构代码中遇到的问题和解决方案" class="headerlink" title="重构代码中遇到的问题和解决方案"></a>重构代码中遇到的问题和解决方案</h2>
+      
+        <h3 id="1-游戏实体相关问题"   >
+          <a href="#1-游戏实体相关问题" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-游戏实体相关问题" class="headerlink" title="1. 游戏实体相关问题"></a>1. 游戏实体相关问题</h3>
+      
+        <h4 id="1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。"   >
+          <a href="#1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。" class="headerlink" title="1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。"></a>1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。</h4>
+      <p>对于一些轻量游戏尤其是三消类游戏，在传统开发逻辑下，难免会一个Mono里边包含了大量的相关逻辑，比如：指令输入的接收和处理、自身动画的设置和开始结束、消息接收和分发以及数据等。</p>
+<p>首先以GameFramework的实体-逻辑结构进行第一步拆分，将这个类需要用到的传入数据先拆成EntityData</p>
+<p>关于GameFramework框架思想的一些总结：</p>
+<ol>
+<li>GameFramework中将许多外部依赖逻辑抽成Helper类，然后需要修改直接继承覆盖即可，这样使得模块化更清晰，内外输入和依赖完全解耦。提高扩展性。</li>
+</ol>
+</div></div></article></section><nav class="paginator"><div class="paginator-inner"><a class="extend prev" rel="prev" href="/myblog/"><i class="fas fa-angle-left"></i></a><a class="page-number" href="/myblog/">1</a><span class="page-number current">2</span></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/stun-logo.svg" alt="avatar"></div><p class="sidebar-ov-author__text">Hello Stun</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">14</div><div class="sidebar-ov-state-item__name">Archives</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">0</div><div class="sidebar-ov-state-item__name">Categories</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">5</div><div class="sidebar-ov-state-item__name">Tags</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="Creative Commons" data-popover-pos="up"><img src="/myblog/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Nelson</span></div><div><span>Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a></span><span> v7.1.1</span><span class="footer__devider">|</span><span>Theme - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/myblog/js/utils.js?v=2.8.0"></script><script src="/myblog/js/stun-boot.js?v=2.8.0"></script><script src="/myblog/js/scroll.js?v=2.8.0"></script><script src="/myblog/js/header.js?v=2.8.0"></script><script src="/myblog/js/sidebar.js?v=2.8.0"></script></body></html>

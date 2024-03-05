@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/myblog/icon/favicon-16x16.png?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/myblog/icon/favicon-32x32.png?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="安装Hexo        安装 Hexo 首先，你需要在你的计算机上安装 Node.js 和 Git。安装完 Node.js 之后，打开终端或命令提示符，并使用以下命令来安装 Hexo：  1npm install -g hexo-cli   这将在全局范围里安装 Hexo 命令行工具。  初始化新的博客  接着，选择一个位置来创建你的新博客。在终端&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过hexo搭载github创建个人博客">
+<meta property="og:url" content="https://nelson.github.io/myblog/2023/07/07/%E9%80%9A%E8%BF%87hexo%E6%90%AD%E8%BD%BDgithub%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:site_name" content="Nelson">
+<meta property="og:description" content="安装Hexo        安装 Hexo 首先，你需要在你的计算机上安装 Node.js 和 Git。安装完 Node.js 之后，打开终端或命令提示符，并使用以下命令来安装 Hexo：  1npm install -g hexo-cli   这将在全局范围里安装 Hexo 命令行工具。  初始化新的博客  接着，选择一个位置来创建你的新博客。在终端&amp;#x">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-07-07T06:09:48.000Z">
+<meta property="article:modified_time" content="2023-07-07T06:16:56.030Z">
+<meta property="article:author" content="Nelson">
+<meta name="twitter:card" content="summary"><title>通过hexo搭载github创建个人博客 | Nelson</title><link ref="canonical" href="https://nelson.github.io/myblog/2023/07/07/%E9%80%9A%E8%BF%87hexo%E6%90%AD%E8%BD%BDgithub%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/myblog/css/index.css?v=2.8.0"><link rel="stylesheet" href="css/custom.css"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/myblog/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":false,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"Copy","copySuccess":"Copy Success","copyError":"Copy Error"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.1.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">Home</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">Archives</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">Categories</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">Tags</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">通过hexo搭载github创建个人博客</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2023-07-07</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2023-07-07</span></span></div></header><div class="post-body">
+        <h2 id="安装Hexo"   >
+          <a href="#安装Hexo" class="heading-link"><i class="fas fa-link"></i></a><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2>
+      <ol>
+<li><p><strong>安装 Hexo</strong><br> 首先，你需要在你的计算机上安装 Node.js 和 Git。安装完 Node.js 之后，打开终端或命令提示符，并使用以下命令来安装 Hexo：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></div></figure>
+
+<p> 这将在全局范围里安装 Hexo 命令行工具。</p>
+</li>
+<li><p><strong>初始化新的博客</strong></p>
+<p> 接着，选择一个位置来创建你的新博客。在终端&#x2F;命令行工具中导航到你选择的目录，然后键入以下命令：</p>
+<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog</span><br></pre></td></tr></table></div></figure>
+<p>​	这将在 ‘blog’ 目录下创建一个新的 Hexo 博客。</p>
+</li>
+<li><p><strong>安装依赖</strong></p>
+<p>​	当 ‘hexo init’ 命令完成后，应将在 ‘blog’ 文件夹中看到一些文件和文件夹。现在使用终端导航到这个新创建的 ‘blog’ 文件夹，然后使用以下命令来安装所需的依赖：</p>
+<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line">npm install</span><br></pre></td></tr></table></div></figure>
+</li>
+<li><p><strong>配置博客</strong></p>
+<p>​	等待依赖安装完成后，即可开始配置你的博客。打开 ‘blog’ 文件夹，你会看到一个名为 ‘_config.yml’ 的文件，这是 Hexo 博客的主配置文件。在其中，你可以设置网站的名字，描述，以及一些其他的配置选项。配置完成之后保存关闭文件。</p>
+</li>
+<li><p><strong>开始你的博客之旅</strong></p>
+<p> 至此，你的新博客已经配置完成，你可以开始写你的第一篇博客文章了。创建新文章的命令是：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;你的文章标题&quot;</span><br></pre></td></tr></table></div></figure>
+<p> 这样就会在 ‘source&#x2F;_posts&#x2F;‘ 目录下生成一个新的 markdown 文件，你可以在这个文件中写你的博客内容。</p>
+</li>
+<li><p><strong>编写博客文章</strong><br> 打开刚刚创建的 markdown 文件，在其中写下你的博客内容。Markdown 语法非常简单，例如你可以使用 # 来创建标题，- 或 * 创建列表等。</p>
+</li>
+<li><p><strong>生成静态页面</strong><br> 当你完成了博客文章的编写，再次回到终端&#x2F;命令提示符窗口，输入以下命令来生成静态页面：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate </span><br><span class="line"># 或者可以用 &#x27;hexo g&#x27; 这个简写形式</span><br></pre></td></tr></table></div></figure>
+<p> 这将会把你的 markdown 文件转换成能在网页上显示的博客文章。</p>
+</li>
+<li><p><strong>查看网页</strong>:</p>
+<p> 如果你想在本地查看你的博客，你可以输入以下命令启动一个服务器：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br><span class="line"># 同样，这里也可以用 &#x27;hexo s&#x27; 这个简写形式</span><br></pre></td></tr></table></div></figure>
+
+<p> 然后在浏览器中输入 <code>http://localhost:4000</code>，你就能看到你的博客网页了。</p>
+</li>
+</ol>
+
+        <h2 id="配置Github"   >
+          <a href="#配置Github" class="heading-link"><i class="fas fa-link"></i></a><a href="#配置Github" class="headerlink" title="配置Github"></a>配置Github</h2>
+      <ol>
+<li><p><strong>安装hexo-deployer-git</strong></p>
+<p> 打开终端，定位到您的Hexo项目目录，然后运行以下命令：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></div></figure>
+<p> 这将在您的Hexo项目中安装一个部署插件，让您可以将博客发布到GitHub。</p>
+</li>
+<li><p><strong>在Hexo配置文件中添加部署配置</strong></p>
+<p> 打开您的Hexo项目的配置文件（通常是<code>_config.yml</code>）并找到<code>deploy</code>部分。然后添加以下配置：</p>
+ <figure class="highlight yaml"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">&lt;repository</span> <span class="string">url&gt;</span> <span class="comment"># 您的GitHub存储库URL，例如：https://github.com/&lt;username&gt;/&lt;reponame&gt;.git</span></span><br><span class="line">  <span class="attr">branch:</span> [<span class="string">branch</span>] <span class="comment">#陆地分支，例如：gh-pages对于用户站点，master for project site.</span></span><br></pre></td></tr></table></div></figure>
+<p> 请注意，您需要替换<code>&lt;repository url&gt;</code>和<code>[branch]</code>。对于GitHub用户网站，核心应是<code>master</code>分支；对于项目网站，核心应是<code>gh-pages</code>分支。</p>
+</li>
+<li><p><strong>部署您的网站</strong></p>
+<p> 返回到终端并运行以下命令：</p>
+ <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></div></figure>
+<p> 或者简写形式 <code>hexo d</code>.</p>
+</li>
+</ol>
+<p>该命令将生成您的博客并将其推送到您在配置文件中配置的URL和分支的存储库。</p>
+<ol start="4">
+<li>对于推送出现权限不足情况需要去git hub 配置ssh秘钥。<ol>
+<li><code>ssh-keygen -t ed25519 -C &quot;you github email&quot;</code>创建密钥</li>
+<li><code>ssh-add ~/.ssh/id_ed25519</code> 添加密钥</li>
+<li><code>cat ~/.ssh/id_ed25519.pub</code> 获取到当前密钥</li>
+<li>在Github 的Setting -》SSH and GPG keys里新增一个SSH密钥，然后将 c 获取的密钥粘贴并保存</li>
+<li><code> ssh -T git@github.com</code> 显示成功即配置完成</li>
+</ol>
+</li>
+</ol>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ END ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">Author: </span><span class="copyright-author__value"><a href="https://Nelson.github.io/myblog">Nelson</a></span></div><div class="copyright-link"><span class="copyright-link__name">Link: </span><span class="copyright-link__value"><a href="https://nelson.github.io/myblog/2023/07/07/%E9%80%9A%E8%BF%87hexo%E6%90%AD%E8%BD%BDgithub%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">https://nelson.github.io/myblog/2023/07/07/%E9%80%9A%E8%BF%87hexo%E6%90%AD%E8%BD%BDgithub%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">Copyright: </span><span class="copyright-notice__value">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> unless stating additionally</span></div></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/myblog/2023/12/28/%E5%BF%AB%E9%80%9FShader%E5%85%A5%E9%97%A8/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">快速Shader入门</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/myblog/2023/07/07/%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/"><span class="paginator-prev__text">重构相关总结</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">Catalog</span><span class="sidebar-nav-ov">Overview</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Hexo"><span class="toc-text">
+          安装Hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEGithub"><span class="toc-text">
+          配置Github</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/stun-logo.svg" alt="avatar"></div><p class="sidebar-ov-author__text">Hello Stun</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">14</div><div class="sidebar-ov-state-item__name">Archives</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">0</div><div class="sidebar-ov-state-item__name">Categories</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">5</div><div class="sidebar-ov-state-item__name">Tags</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="Creative Commons" data-popover-pos="up"><img src="/myblog/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">You have read </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Nelson</span></div><div><span>Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a></span><span> v7.1.1</span><span class="footer__devider">|</span><span>Theme - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/myblog/js/utils.js?v=2.8.0"></script><script src="/myblog/js/stun-boot.js?v=2.8.0"></script><script src="/myblog/js/scroll.js?v=2.8.0"></script><script src="/myblog/js/header.js?v=2.8.0"></script><script src="/myblog/js/sidebar.js?v=2.8.0"></script></body></html>
