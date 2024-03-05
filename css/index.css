@@ -928,12 +928,12 @@ body::after {
   font-size: 4rem;
   font-weight: 700;
   line-height: 1;
-  color: #f5f6f7;
+  color: #a0ffff;
 }
 .header-banner-info__subtitle {
   font-size: 1.2rem;
   font-weight: 400;
-  color: #f5f6f7;
+  color: #a0ffff;
 }
 .header-banner-arrow {
   position: absolute;
