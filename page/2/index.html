@@ -59,6 +59,21 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.1.1"></he
         <h1 id="快速Unity2D-Shader入"   >
           <a href="#快速Unity2D-Shader入" class="heading-link"><i class="fas fa-link"></i></a><a href="#快速Unity2D-Shader入" class="headerlink" title="快速Unity2D Shader入"></a>快速Unity2D Shader入</h1>
       <p>本文旨在快速开始Unity 2D的Shader开发</p>
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/myblog/2023/07/07/%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/">重构相关总结</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2023-07-07</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2024-03-04</span></span></div></header><div class="post-body"><div class="post-excerpt">
+        <h2 id="重构代码中遇到的问题和解决方案"   >
+          <a href="#重构代码中遇到的问题和解决方案" class="heading-link"><i class="fas fa-link"></i></a><a href="#重构代码中遇到的问题和解决方案" class="headerlink" title="重构代码中遇到的问题和解决方案"></a>重构代码中遇到的问题和解决方案</h2>
+      
+        <h3 id="1-游戏实体相关问题"   >
+          <a href="#1-游戏实体相关问题" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-游戏实体相关问题" class="headerlink" title="1. 游戏实体相关问题"></a>1. 游戏实体相关问题</h3>
+      
+        <h4 id="1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。"   >
+          <a href="#1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。" class="headerlink" title="1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。"></a>1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。</h4>
+      <p>对于一些轻量游戏尤其是三消类游戏，在传统开发逻辑下，难免会一个Mono里边包含了大量的相关逻辑，比如：指令输入的接收和处理、自身动画的设置和开始结束、消息接收和分发以及数据等。</p>
+<p>首先以GameFramework的实体-逻辑结构进行第一步拆分，将这个类需要用到的传入数据先拆成EntityData</p>
+<p>关于GameFramework框架思想的一些总结：</p>
+<ol>
+<li>GameFramework中将许多外部依赖逻辑抽成Helper类，然后需要修改直接继承覆盖即可，这样使得模块化更清晰，内外输入和依赖完全解耦。提高扩展性。</li>
+</ol>
 </div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/myblog/2023/07/07/%E9%80%9A%E8%BF%87hexo%E6%90%AD%E8%BD%BDgithub%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">通过hexo搭载github创建个人博客</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2023-07-07</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2023-07-07</span></span></div></header><div class="post-body"><div class="post-excerpt">
         <h2 id="安装Hexo"   >
           <a href="#安装Hexo" class="heading-link"><i class="fas fa-link"></i></a><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2>
@@ -128,20 +143,5 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.1.1"></he
 <li><code> ssh -T git@github.com</code> 显示成功即配置完成</li>
 </ol>
 </li>
-</ol>
-</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/myblog/2023/07/07/%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/">重构相关总结</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2023-07-07</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2024-03-04</span></span></div></header><div class="post-body"><div class="post-excerpt">
-        <h2 id="重构代码中遇到的问题和解决方案"   >
-          <a href="#重构代码中遇到的问题和解决方案" class="heading-link"><i class="fas fa-link"></i></a><a href="#重构代码中遇到的问题和解决方案" class="headerlink" title="重构代码中遇到的问题和解决方案"></a>重构代码中遇到的问题和解决方案</h2>
-      
-        <h3 id="1-游戏实体相关问题"   >
-          <a href="#1-游戏实体相关问题" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-游戏实体相关问题" class="headerlink" title="1. 游戏实体相关问题"></a>1. 游戏实体相关问题</h3>
-      
-        <h4 id="1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。"   >
-          <a href="#1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-1-关于某一个Mono包含太多逻辑以及输入输出的解决方案。" class="headerlink" title="1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。"></a>1.1. 关于某一个Mono包含太多逻辑以及输入输出的解决方案。</h4>
-      <p>对于一些轻量游戏尤其是三消类游戏，在传统开发逻辑下，难免会一个Mono里边包含了大量的相关逻辑，比如：指令输入的接收和处理、自身动画的设置和开始结束、消息接收和分发以及数据等。</p>
-<p>首先以GameFramework的实体-逻辑结构进行第一步拆分，将这个类需要用到的传入数据先拆成EntityData</p>
-<p>关于GameFramework框架思想的一些总结：</p>
-<ol>
-<li>GameFramework中将许多外部依赖逻辑抽成Helper类，然后需要修改直接继承覆盖即可，这样使得模块化更清晰，内外输入和依赖完全解耦。提高扩展性。</li>
 </ol>
 </div></div></article></section><nav class="paginator"><div class="paginator-inner"><a class="extend prev" rel="prev" href="/myblog/"><i class="fas fa-angle-left"></i></a><a class="page-number" href="/myblog/">1</a><span class="page-number current">2</span></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/stun-logo.svg" alt="avatar"></div><p class="sidebar-ov-author__text">Hello Stun</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">14</div><div class="sidebar-ov-state-item__name">Archives</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">0</div><div class="sidebar-ov-state-item__name">Categories</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">5</div><div class="sidebar-ov-state-item__name">Tags</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="Creative Commons" data-popover-pos="up"><img src="/myblog/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Nelson</span></div><div><span>Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a></span><span> v7.1.1</span><span class="footer__devider">|</span><span>Theme - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/myblog/js/utils.js?v=2.8.0"></script><script src="/myblog/js/stun-boot.js?v=2.8.0"></script><script src="/myblog/js/scroll.js?v=2.8.0"></script><script src="/myblog/js/header.js?v=2.8.0"></script><script src="/myblog/js/sidebar.js?v=2.8.0"></script></body></html>
