@@ -1,0 +1,150 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/myblog/icon/favicon-16x16.png?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/myblog/icon/favicon-32x32.png?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="C#中类型的基本实现原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CLR via C# 学习笔记-类型基础">
+<meta property="og:url" content="https://nelson.github.io/myblog/2024/03/22/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Nelson">
+<meta property="og:description" content="C#中类型的基本实现原理">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403261048036.png">
+<meta property="og:image" content="https://nelson.github.io/Users/nelson/Library/Application%20Support/typora-user-images/image-20240326105103556.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403261110075.png">
+<meta property="article:published_time" content="2024-03-22T08:11:44.000Z">
+<meta property="article:modified_time" content="2024-03-26T03:34:44.228Z">
+<meta property="article:author" content="Nelson">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="C#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403261048036.png"><title>CLR via C# 学习笔记-类型基础 | Nelson</title><link ref="canonical" href="https://nelson.github.io/myblog/2024/03/22/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/myblog/css/index.css?v=2.8.0"><link rel="stylesheet" href="css/custom.css"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/myblog/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":false,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"Copy","copySuccess":"Copy Success","copyError":"Copy Error"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.1.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/myblog/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">Home</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/myblog/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">Archives</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/myblog/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">Categories</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/myblog/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">Tags</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">CLR via C# 学习笔记-类型基础</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2024-03-22</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2024-03-26</span></span></div></header><div class="post-body">
+        <h2 id="1-类型基础"   >
+          <a href="#1-类型基础" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-类型基础" class="headerlink" title="1.类型基础"></a>1.类型基础</h2>
+      
+        <h3 id="1-1-所有类型都从System-Object派生"   >
+          <a href="#1-1-所有类型都从System-Object派生" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-1-所有类型都从System-Object派生" class="headerlink" title="1.1.所有类型都从System.Object派生"></a>1.1.所有类型都从System.Object派生</h3>
+      <p>每个类型都继承自System.Object，所以每个类型的对象都有一组最基本的方法，也就是System.Object的公共实例方法。</p>
+<div class="table-container"><table>
+<thead>
+<tr>
+<th>Public 方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Equals</td>
+<td>如果2个对象有相同的值，返回true</td>
+</tr>
+<tr>
+<td>GetHashCode</td>
+<td>返回对象的值的哈希码。不建议某个类型对象在哈希表集合里作为键使用</td>
+</tr>
+<tr>
+<td>ToString</td>
+<td>默认返回类型的完整名词（this.GetType().FullName）</td>
+</tr>
+<tr>
+<td>GetType</td>
+<td>返回从Type派生的一个类型实例</td>
+</tr>
+<tr>
+<td><strong>Protected 方法</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>MemberwiseClone</td>
+<td>这个非虚方法创建类型的新实例，并将新对象的实例字段设与this 对象的实例字段完全一致，返回对新实例的引用</td>
+</tr>
+<tr>
+<td>Finalize</td>
+<td>垃圾回收之前调用</td>
+</tr>
+</tbody></table></div>
+
+        <h3 id="1-2-new-操作工符所做的事情"   >
+          <a href="#1-2-new-操作工符所做的事情" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-2-new-操作工符所做的事情" class="headerlink" title="1.2.new 操作工符所做的事情"></a>1.2.<strong>new</strong> 操作工符所做的事情</h3>
+      <ol>
+<li>计算类型及所有基类型中所有定义的实例字段需要的<strong>字节数</strong>，堆上的每个对象都需要额外的一些成员，包括”类型对象指针“和”同步块索引“</li>
+<li>从托管堆中分配类型要求的字节数，从而分配对象内存，分配的所有字节都设为零</li>
+<li>初始化对象的“类型对象指针”和“同步块索引”成员</li>
+<li>调用类型的实例构造器，传递在<strong>new</strong>调用中指定的实参，大多数编译器都在构造器中自动生成代码来调用基类构造器。每个类型的构造器都负责初始化该类型定义的实例字段。最终调用System.Object 的 构造器，该构造器什么都不做，简单地返回。</li>
+</ol>
+<p><strong>new</strong>执行了所有这些操作后，返回指向新建对象的指针。</p>
+
+        <h3 id="1-3-类型转换"   >
+          <a href="#1-3-类型转换" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-3-类型转换" class="headerlink" title="1.3.类型转换"></a>1.3.类型转换</h3>
+      <p>类型转换分为2种：</p>
+<ol>
+<li>安全的隐式转换，即向基类型转换</li>
+<li>显式转换，即将对象转换为他的派生类型时，认为是不安全的所以需要显式转换。</li>
+</ol>
+
+        <h4 id="C-中is和as操作符"   >
+          <a href="#C-中is和as操作符" class="heading-link"><i class="fas fa-link"></i></a><a href="#C-中is和as操作符" class="headerlink" title="C#中is和as操作符"></a>C#中is和as操作符</h4>
+      <ol>
+<li>is检查对象是否兼容于指定类型</li>
+<li>as 操作符的工作方式与强制类型转换一样，只是它永远不抛出异常,相反，如果对象不能转型，结果就是null。</li>
+</ol>
+
+        <h3 id="2-运行时相互关系"   >
+          <a href="#2-运行时相互关系" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-运行时相互关系" class="headerlink" title="2.运行时相互关系"></a>2.运行时相互关系</h3>
+      <p>这一节是比较难理解的一节，涉及到了CLR的类型、对象、线程、堆栈、方法之间的关系。这里只描述重点的部分</p>
+
+        <h4 id="2-1-栈空间"   >
+          <a href="#2-1-栈空间" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-1-栈空间" class="headerlink" title="2.1.栈空间"></a>2.1.栈空间</h4>
+      <p>栈空间是用于向方法传递实参，以及方法内部定义的局部变量也在栈上，并且从高位内存地址向低位内存地址构建。栈有以下一些特点：后进先出、向下增长、栈帧（每次函数调用，栈上都会创建一个新的栈帧，用于存储该函数调用的信息）、速度快、有大小限制、自动分配回收。</p>
+<img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403261048036.png" alt="image-20240326104836857" style="zoom:50%;" />
+
+<p>上图简要说明了，定义一个变量name的时候，会将name的指针存储到栈上（因为string是引用类型）。</p>
+<img src="/Users/nelson/Library/Application Support/typora-user-images/image-20240326105103556.png" alt="image-20240326105103556" style="zoom: 50%;" />
+
+<p>在调用M2的时候，会先就爱那个M2的参数入栈，然后将M2应该返回地址入栈，然后再分配M2内部的变量等，等M2执行完后，会返回<strong>返回地址</strong>，也叫展开（unwind）。恢复成图4-3。</p>
+
+        <h4 id="2-2-托管堆"   >
+          <a href="#2-2-托管堆" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-2-托管堆" class="headerlink" title="2.2.托管堆"></a>2.2.托管堆</h4>
+      <img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403261110075.png" alt="image-20240326111057045" style="zoom:50%;" />
+
+<p>这里主要说一下在new一个对象的时候都发生了什么，首先是在堆上有所有<strong>类型对象</strong>，类型对象就是存储了类的基本新的对象，继承自Type。而之前说过的<strong>类型对象指针</strong>就是指向类型对象。</p>
+<p>然后在new一个对象的时候，会分配一个堆空间，然后初始化对象，包括类型对象指针，每个对象都得到自己的类型就是通过这个指针指向的Type。</p>
+
+        <h4 id="3-3-方法调用"   >
+          <a href="#3-3-方法调用" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-3-方法调用" class="headerlink" title="3.3.方法调用"></a>3.3.方法调用</h4>
+      <ol>
+<li><p>如果是静态方法，CLR会定位与定义静态方法的类型对应的类型对象。然后，JIT编译器在类型对象的方法表中查找与被调用 方法对应的记录项，对方法进行JIT编译(如果需要的话)，再调用JIT编译好的代码。</p>
+</li>
+<li><p>如果是非虚方法，JIT会找到调用的对象的<strong>类型对象</strong>，如果这个<strong>类型对象</strong>没有定义那个方法，那么就会回溯类层次结构（一直到Object），并在每个<strong>类型对象</strong>中查找该方法。之所以能这样回溯，是因为每个<strong>类型对象</strong>都有 一个字段引用了它的基类型。</p>
+</li>
+<li><p>如果是虚方法，调用虚实例方法时，JIT编译器要在方法中生成一些额外的代码，方法每次调用都会执行这些代码。这些代码首先检查发出调用的变量，并跟随地址来到发出调用的对象。然后，代码检查对象内部的<strong>类型对象指针</strong>成员，该成员指向对象的 实际类型。然后，代码在类型对象的方法表中查找引用了被调用方法的记录项，对方法进 行JIT编译(如果需要的话)，再调用JIT编译好的代码。（这就是查虚表的过程，所以说虚方法通常是更耗性能的）。</p>
+</li>
+</ol>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ END ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">Author: </span><span class="copyright-author__value"><a href="https://Nelson.github.io/myblog">Nelson</a></span></div><div class="copyright-link"><span class="copyright-link__name">Link: </span><span class="copyright-link__value"><a href="https://nelson.github.io/myblog/2024/03/22/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80/">https://nelson.github.io/myblog/2024/03/22/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">Copyright: </span><span class="copyright-notice__value">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> unless stating additionally</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://nelson.github.io/myblog/tags/Unity/">Unity</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://nelson.github.io/myblog/tags/C/">C#</a></span></div><nav class="post-paginator paginator"><div class="paginator-next"><a class="paginator-next__link" href="/myblog/2024/03/12/UIEffect%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-UIShadow/"><span class="paginator-prev__text">UIEffect源码分析-UIShadow</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">Catalog</span><span class="sidebar-nav-ov">Overview</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80"><span class="toc-text">
+          1.类型基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%89%80%E6%9C%89%E7%B1%BB%E5%9E%8B%E9%83%BD%E4%BB%8ESystem-Object%E6%B4%BE%E7%94%9F"><span class="toc-text">
+          1.1.所有类型都从System.Object派生</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-new-%E6%93%8D%E4%BD%9C%E5%B7%A5%E7%AC%A6%E6%89%80%E5%81%9A%E7%9A%84%E4%BA%8B%E6%83%85"><span class="toc-text">
+          1.2.new 操作工符所做的事情</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-text">
+          1.3.类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#C-%E4%B8%ADis%E5%92%8Cas%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-text">
+          C#中is和as操作符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9B%B8%E4%BA%92%E5%85%B3%E7%B3%BB"><span class="toc-text">
+          2.运行时相互关系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E6%A0%88%E7%A9%BA%E9%97%B4"><span class="toc-text">
+          2.1.栈空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E6%89%98%E7%AE%A1%E5%A0%86"><span class="toc-text">
+          2.2.托管堆</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="toc-text">
+          3.3.方法调用</span></a></li></ol></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/myblog/bg/author.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Nelsonly</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/Nelsonly" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/myblog/archives/"><div class="sidebar-ov-state-item__count">15</div><div class="sidebar-ov-state-item__name">Archives</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/myblog/categories/"><div class="sidebar-ov-state-item__count">4</div><div class="sidebar-ov-state-item__name">Categories</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/myblog/tags/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">Tags</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="Creative Commons" data-popover-pos="up"><img src="/myblog/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">You have read </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Nelson</span></div><div><span>Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a></span><span> v7.1.1</span><span class="footer__devider">|</span><span>Theme - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/myblog/js/utils.js?v=2.8.0"></script><script src="/myblog/js/stun-boot.js?v=2.8.0"></script><script src="/myblog/js/scroll.js?v=2.8.0"></script><script src="/myblog/js/header.js?v=2.8.0"></script><script src="/myblog/js/sidebar.js?v=2.8.0"></script></body></html>
