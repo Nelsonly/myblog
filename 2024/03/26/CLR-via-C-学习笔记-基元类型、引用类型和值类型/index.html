@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/myblog/icon/favicon-16x16.png?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/myblog/icon/favicon-32x32.png?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="C#中不同类型的基本原理，包括：为什么引用类型会产生GC、装箱拆箱等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CLR via C# 学习笔记-基元类型、引用类型和值类型">
+<meta property="og:url" content="https://nelson.github.io/myblog/2024/03/26/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9F%BA%E5%85%83%E7%B1%BB%E5%9E%8B%E3%80%81%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%80%BC%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Nelson">
+<meta property="og:description" content="C#中不同类型的基本原理，包括：为什么引用类型会产生GC、装箱拆箱等。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403271050531.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403271119585.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403271130794.png">
+<meta property="article:published_time" content="2024-03-26T03:38:12.000Z">
+<meta property="article:modified_time" content="2024-03-27T09:15:14.825Z">
+<meta property="article:author" content="Nelson">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="C#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403271050531.png"><title>CLR via C# 学习笔记-基元类型、引用类型和值类型 | Nelson</title><link ref="canonical" href="https://nelson.github.io/myblog/2024/03/26/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9F%BA%E5%85%83%E7%B1%BB%E5%9E%8B%E3%80%81%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%80%BC%E7%B1%BB%E5%9E%8B/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/myblog/css/index.css?v=2.8.0"><link rel="stylesheet" href="css/custom.css"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/myblog/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":false,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"Copy","copySuccess":"Copy Success","copyError":"Copy Error"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.1.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/myblog/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">Home</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/myblog/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">Archives</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/myblog/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">Categories</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/myblog/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">Tags</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">CLR via C# 学习笔记-基元类型、引用类型和值类型</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2024-03-26</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2024-03-27</span></span></div></header><div class="post-body">
+        <h2 id="1-编程语言的基元类型"   >
+          <a href="#1-编程语言的基元类型" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-编程语言的基元类型" class="headerlink" title="1.编程语言的基元类型"></a>1.编程语言的基元类型</h2>
+      <p>编辑器直接支持的数据类型称为<strong>基元类型</strong>（primitive type）。基元类型之间映射到Framework类库（FCL）中存在的类型。包括：sbyte、byte、short、ushort、int、uint、long、ulong、char、float、double、bool、decimal、string、object、dynamic。</p>
+<p>C#只有在“安全”的时候才允许隐式转换，也就是精度或数量级不丢失的情况。否则需要显式转换。</p>
+<p>C#默认对溢出是不检查的，也就是溢出后变成负值或很小的值，但是可以使用<code>checked()</code>进行检查，如果溢出就抛出<code>OverflowException</code>异常。</p>
+
+        <h2 id="2-引用类型和值类型"   >
+          <a href="#2-引用类型和值类型" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-引用类型和值类型" class="headerlink" title="2.引用类型和值类型"></a>2.引用类型和值类型</h2>
+      <p>引用类型总是从托管堆分配，C#的new操作符返回对象的内存地址–即对象数据的内存地址。首先有四个事实：</p>
+<ol>
+<li>内存必须从托管堆分配</li>
+<li>堆上分配的每个对象都有一些额外成员，这些成员必须初始化</li>
+<li>对象中的其他字节总是设为零</li>
+<li>从托管堆分配对象时，可能强制执行一次垃圾回收</li>
+</ol>
+<p>与之对应的是值类型，值类型的实例一般在线程栈上分配（虽然也可作为字段嵌入引用类型的对象中），值类型变量中包含了实例本身的字段，所以操作实例中的字段不需要提领指针，值类型的实例也就不受垃圾回收器控制。</p>
+<p>一个比较简单区分值类型和引用类型的方式就是，任何称为“类”的都是引用类型。所有值类型都称为结构或枚举。比如:int就是<code>struct Int32</code>。而进一步研究，就会发现，结构都是抽象类型System.ValueType的直接派生。<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.int32?view=net-8.0" >.net文档</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span><br><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403271050531.png" alt="image-20240327105050391" style="zoom: 50%;" /></p>
+<p>CLR和所有编程语言都给予枚举特殊待遇。</p>
+<p>虽然值类型不会申请堆上内存，但是我们也不能什么都去使用值类型，因为值类型在传递、返回的时候需要重新拷贝，如果结构体过大，还不如使用引用类型传一个指针呢。</p>
+<p>注：CLR会自动重新排序结构体中的值的存储顺序，所以在和Native代码交互的时候，如果必须使用结构体，需要使用<code>StructLayoutAttribute</code>将结构锁定，不然会导致2端结构体内数据结构不一致导致混乱。</p>
+
+        <h2 id="3-值类型的装箱和拆箱"   >
+          <a href="#3-值类型的装箱和拆箱" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-值类型的装箱和拆箱" class="headerlink" title="3.值类型的装箱和拆箱"></a>3.值类型的装箱和拆箱</h2>
+      <p>许多时候，需要获取对值类型的引用，这就需要装箱和拆箱操作了。</p>
+
+        <h3 id="3-1-装箱"   >
+          <a href="#3-1-装箱" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-1-装箱" class="headerlink" title="3.1.装箱"></a>3.1.装箱</h3>
+      <p><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403271119585.png" alt="image-20240327111950540"></p>
+<p>比如：</p>
+<p><code>struce Point&#123;int x,y&#125;</code>, <code>ArrayList points; </code> </p>
+<p>ArrayList的Add方法为<code>public virtual Int32 Add (Object value);</code>传递的参数为Object 也就是指针，也就是Add获取托管堆上的一个对象的引用作为参数。这时Point就要从值类型变成引用类型，也就是装箱：</p>
+<ol>
+<li>在托管堆中分配内存。分配的内存量是值类型各字段所需要的内存量，还要加上托管堆所有对象的2个额外成员（类型对象指针和同步块索引）所需要的内存量。</li>
+<li>值类型的字段复制到新分配的堆内存</li>
+<li>返回对象地址。</li>
+</ol>
+<p>目前我们经常使用的<code>List&lt;T&gt;</code>等泛型类，已经不在有装箱拆箱的操作了。并且类型安全也进一步提高了。</p>
+
+        <h3 id="3-2-拆箱"   >
+          <a href="#3-2-拆箱" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-2-拆箱" class="headerlink" title="3.2.拆箱"></a>3.2.拆箱</h3>
+      <p><img src="https://raw.githubusercontent.com/Nelsonly/pictures/main/img/202403271130794.png" alt="image-20240327113016756"></p>
+<p>比如我们想获取ArrayList的第一个元素：<code>Point p = (Point) a[0];</code>这时就会发生拆箱：</p>
+<ol>
+<li>获取已装箱对象中的各个字段的地址</li>
+<li>将字段包含的值复制到基于栈的值类型实例中</li>
+</ol>
+<p>注：拆箱不是直接将装箱过程倒过来。拆箱的代价比装箱低得多。拆箱其实就是获取指针的过程，该指针指向包含在一个对象中的原始值类型(数据字段)。其实，指针指向的是已装箱实例中的未装箱部分。所以和装箱不同，拆箱不要求在内存中复制任何字节。知道这个重要区别之后，还应知道的 一个重点是，往往紧接着拆箱发生一次字段复制。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ END ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">Author: </span><span class="copyright-author__value"><a href="https://Nelson.github.io/myblog">Nelson</a></span></div><div class="copyright-link"><span class="copyright-link__name">Link: </span><span class="copyright-link__value"><a href="https://nelson.github.io/myblog/2024/03/26/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9F%BA%E5%85%83%E7%B1%BB%E5%9E%8B%E3%80%81%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%80%BC%E7%B1%BB%E5%9E%8B/">https://nelson.github.io/myblog/2024/03/26/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9F%BA%E5%85%83%E7%B1%BB%E5%9E%8B%E3%80%81%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%80%BC%E7%B1%BB%E5%9E%8B/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">Copyright: </span><span class="copyright-notice__value">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> unless stating additionally</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://nelson.github.io/myblog/tags/Unity/">Unity</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://nelson.github.io/myblog/tags/C/">C#</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/myblog/2024/03/29/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%B1%BB%E5%9E%8B%E5%92%8C%E6%88%90%E5%91%98%E5%9F%BA%E7%A1%80/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">CLR via C# 学习笔记-类型和成员基础</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/myblog/2024/03/22/CLR-via-C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%B1%BB%E5%9E%8B%E5%9F%BA%E7%A1%80/"><span class="paginator-prev__text">CLR via C# 学习笔记-类型基础</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">Catalog</span><span class="sidebar-nav-ov">Overview</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E7%9A%84%E5%9F%BA%E5%85%83%E7%B1%BB%E5%9E%8B"><span class="toc-text">
+          1.编程语言的基元类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%80%BC%E7%B1%BB%E5%9E%8B"><span class="toc-text">
+          2.引用类型和值类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%80%BC%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%A3%85%E7%AE%B1%E5%92%8C%E6%8B%86%E7%AE%B1"><span class="toc-text">
+          3.值类型的装箱和拆箱</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E8%A3%85%E7%AE%B1"><span class="toc-text">
+          3.1.装箱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%8B%86%E7%AE%B1"><span class="toc-text">
+          3.2.拆箱</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/myblog/bg/author.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Nelsonly</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/Nelsonly" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/myblog/archives/"><div class="sidebar-ov-state-item__count">17</div><div class="sidebar-ov-state-item__name">Archives</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/myblog/categories/"><div class="sidebar-ov-state-item__count">4</div><div class="sidebar-ov-state-item__name">Categories</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/myblog/tags/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">Tags</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="Creative Commons" data-popover-pos="up"><img src="/myblog/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">You have read </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Nelson</span></div><div><span>Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a></span><span> v7.1.1</span><span class="footer__devider">|</span><span>Theme - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/myblog/js/utils.js?v=2.8.0"></script><script src="/myblog/js/stun-boot.js?v=2.8.0"></script><script src="/myblog/js/scroll.js?v=2.8.0"></script><script src="/myblog/js/header.js?v=2.8.0"></script><script src="/myblog/js/sidebar.js?v=2.8.0"></script></body></html>
